@@ -1,0 +1,19 @@
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+
+# Claude Code local settings
+.claude/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Large presentation source (contains embedded video, exceeds GitHub size limits)
+OS report and ppt/
+
+# Logs / temp
+*.log
+*.tmp
