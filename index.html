@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banker's Algorithm Simulator</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { background: linear-gradient(135deg, #f8fafc 0%, #eef2f7 100%); }
+        .header { color: #2c3e50; }
+        .header h1 { color: #2c3e50; letter-spacing: 0.5px; }
+        .header p { color: #7f8c8d; }
+
+        .container { gap: 24px; }
+        .panel { background: #ffffff; border: 1px solid #e6eaf0; box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08); }
+
+        .section-title { color: #2c3e50; border-bottom-color: #3498db; }
+        .section h3 { color: #2c3e50; }
+
+        .input-group label { color: #34495e; }
+        .input-group input, .input-group select { background: #ffffff; border-color: #dfe6ee; color: #2c3e50; }
+        .input-group input:focus, .input-group select:focus { border-color: #3498db; box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25); }
+
+        .btn { letter-spacing: 0.3px; }
+        .btn-primary { background: linear-gradient(135deg, #3498db 0%, #5dade2 100%); box-shadow: 0 8px 18px rgba(52, 152, 219, 0.3); color: #ffffff; }
+        .btn-primary:hover { background: linear-gradient(135deg, #4aa3df 0%, #74b6e8 100%); box-shadow: 0 10px 22px rgba(52, 152, 219, 0.4); }
+        .btn-secondary { background: linear-gradient(135deg, #27ae60 0%, #58d68d 100%); box-shadow: 0 8px 18px rgba(39, 174, 96, 0.3); color: #ffffff; }
+        .btn-secondary:hover { background: linear-gradient(135deg, #35b76b 0%, #6fe0a1 100%); box-shadow: 0 10px 22px rgba(39, 174, 96, 0.4); }
+
+        .matrix-container { border-radius: 10px; }
+        .matrix-table { border-color: #e0e6ed; }
+        .matrix-table th { background: #ecf0f1; color: #2c3e50; }
+        .matrix-table td { background: #ffffff; color: #34495e; border-color: #e0e6ed; }
+        .matrix-table input { background: #ffffff; border-color: #dfe6ee; color: #2c3e50; }
+        .matrix-table input:focus { border-color: #3498db; box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25); }
+        .matrix-table.readonly td { background: #f8f9fa; color: #2c3e50; }
+
+        .status-box { background: #f9fbfd; border: 1px solid #e6eaf0; color: #2c3e50; }
+        .status-safe { background: #eafaf1; color: #1e7e34; border-color: #c7eed8; }
+        .status-unsafe { background: #fdecea; color: #c0392b; border-color: #f5c6cb; }
+        .status-pending { background: #fff8e1; color: #8a6d3b; border-color: #ffeaa7; }
+
+        .sequence-box { background: #eff6ff; border-left-color: #3498db; }
+        .sequence-box strong { color: #2c3e50; }
+        .sequence-box span { color: #3498db; }
+
+        .steps-table th { background: #f0f3f6; color: #2c3e50; }
+        .steps-table td { color: #2c3e50; border-color: #e0e6ed; }
+        .steps-table tr:nth-child(even) { background: #f9fbfd; }
+        .steps-table .check-yes { color: #27ae60; }
+        .steps-table .check-no { color: #e74c3c; }
+
+        .log-entry { background: #f9fbfd; border-left-color: #95a5a6; }
+        .log-entry .log-header { color: #2c3e50; }
+        .log-entry .log-details { color: #7f8c8d; }
+        .log-entry.granted { border-left-color: #27ae60; }
+        .log-entry.denied { border-left-color: #e74c3c; }
+
+        .collapsible-header { background: #f0f3f6; color: #2c3e50; }
+        .collapsible-header:hover { background: #e6ebf2; }
+
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: #f1f4f8; }
+        ::-webkit-scrollbar-thumb { background: #c7d1df; border-radius: 6px; }
+        ::-webkit-scrollbar-thumb:hover { background: #b0becd; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Banker's Algorithm Simulator</h1>
+        <p>Deadlock Avoidance & Resource Allocation</p>
+    </div>
+
+    <div class="container">
+        <!-- LEFT PANEL: INPUT & CONFIGURATION -->
+        <div class="panel left-panel">
+            <h2 class="section-title">Banker's Algorithm Configuration</h2>
+
+            <!-- Section A: System Initialization -->
+            <div class="section">
+                <h3 style="color: #34495e; margin-bottom: 15px;">System Initialization</h3>
+                
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="numProcesses">Number of Processes (n)</label>
+                        <input type="number" id="numProcesses" min="1" max="10" value="5">
+                    </div>
+                    <div class="input-group">
+                        <label for="numResources">Number of Resources (m)</label>
+                        <input type="number" id="numResources" min="1" max="10" value="3">
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="generateMatrices()">Generate Matrices</button>
+
+                <div id="matricesContainer"></div>
+
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-primary" onclick="runSafetyCheck()">Run Initial Safety Check</button>
+                </div>
+            </div>
+
+            <!-- Section B: Dynamic Resource Request -->
+            <div class="section">
+                <h3 style="color: #34495e; margin-bottom: 15px;">Dynamic Resource Request</h3>
+                
+                <div class="input-group">
+                    <label for="processSelect">Select Process</label>
+                    <select id="processSelect">
+                        <option value="">-- Select Process --</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Request Vector</label>
+                    <div id="requestVectorContainer"></div>
+                </div>
+
+                <button class="btn btn-secondary" onclick="submitRequest()">Submit Resource Request</button>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL: OUTPUT & VISUALIZATION -->
+        <div class="panel right-panel">
+            <h2 class="section-title">Algorithm Output & Step-by-Step Simulation</h2>
+
+            <!-- Status Box -->
+            <div id="statusBox" class="status-box status-pending">
+                SYSTEM STATUS: Awaiting Initial Configuration
+            </div>
+
+            <!-- Need Matrix -->
+            <div class="section" id="needMatrixSection" style="display: none;">
+                <h3 style="color: #34495e; margin-bottom: 15px;">Calculated Need Matrix (Max - Allocation)</h3>
+                <div class="matrix-container" id="needMatrixContainer"></div>
+            </div>
+
+            <!-- Safe Sequence -->
+            <div id="safeSequenceBox" style="display: none;"></div>
+
+            <!-- Step-by-Step Simulation -->
+            <div class="collapsible" id="stepsSection" style="display: none;">
+                <div class="collapsible-header" onclick="toggleCollapsible()">
+                    <span>Step-by-Step Safety Algorithm Simulation</span>
+                    <span id="collapseIcon">▼</span>
+                </div>
+                <div class="collapsible-content" id="stepsContent">
+                    <div id="stepsTableContainer"></div>
+                </div>
+            </div>
+
+            <!-- Resource Request Log -->
+            <div class="section" id="logSection" style="display: none;">
+                <h3 style="color: #34495e; margin-bottom: 15px;">Resource Request Log</h3>
+                <div id="requestLog"></div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
