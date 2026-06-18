@@ -138,4 +138,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Author
 
-**Harshith Sai**
+**Gottipati Harshith Sai**
