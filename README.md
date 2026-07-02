@@ -1,5 +1,13 @@
 # Banker's Algorithm Simulator
 
+[**▶ Live Demo — try it in your browser**](https://harshith0308.github.io/Bankers-algorithm-simulator/)
+
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E?logo=javascript&logoColor=black)
+![No dependencies](https://img.shields.io/badge/dependencies-none-brightgreen)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+
 An interactive, browser-based simulator for the **Banker's Algorithm** — the classic
 deadlock-avoidance and resource-allocation technique used in operating systems. Built
 with plain HTML, CSS, and JavaScript (no frameworks, no build step), so it runs by
@@ -54,6 +62,8 @@ safety algorithm, and a log of every resource request that was granted or denied
 ![Output panel showing the Need matrix, safe sequence, step trace, and request log](docs/images/screenshot-output.png)
 
 ## Getting Started
+
+**No install needed** — use the [live demo](https://harshith0308.github.io/Bankers-algorithm-simulator/). To run locally instead:
 
 No installation or build is required.
 
