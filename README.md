@@ -1,6 +1,6 @@
 # Banker's Algorithm Simulator
 
-[**▶ Live Demo — try it in your browser**](https://harshith0308.github.io/Bankers-algorithm-simulator/)
+[**▶ Live Demo — try it in your browser**](https://harshith0308.github.io/bankers-algorithm-simulator/)
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
@@ -63,7 +63,7 @@ safety algorithm, and a log of every resource request that was granted or denied
 
 ## Getting Started
 
-**No install needed** — use the [live demo](https://harshith0308.github.io/Bankers-algorithm-simulator/). To run locally instead:
+**No install needed** — use the [live demo](https://harshith0308.github.io/bankers-algorithm-simulator/). To run locally instead:
 
 No installation or build is required.
 
